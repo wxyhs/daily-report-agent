@@ -1,0 +1,62 @@
+server:
+  servlet:
+    context-path: /daily/agent/
+  port: 8098
+
+spring:
+  application:
+    name: daily-report-agent
+
+  # 数据源配置 (以 MySQL 为例)
+  datasource:
+    url: jdbc:mysql://localhost:3306/daily?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: shiwone2077
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # 邮件配置
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    protocol: smtps
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true  # 启用SSL
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+
+  # AI 配置 (以通义千问为例)
+  ai:
+    dashscope:
+      api-key: ${DASHSCOPE_API_KEY} # 强烈建议从环境变量读取
+    chat:
+      options:
+        model: qwen-max # 使用通义千问 Max 模型
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  # mapper 文件位置（如果使用 XML 文件）
+  mapper-locations: classpath*:/mapper/**/*.xml
+  # 实体扫描包路径
+  type-aliases-package: com.wxy.dailyreportagent.entity
+  configuration:
+    # 开启驼峰命名转换（默认开启）
+    map-underscore-to-camel-case: true
+    # 打印 SQL 日志（开发时方便调试）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      # 主键生成策略（根据你的表结构设置）
+      id-type: auto
+
+# 日志级别（可选）
+logging:
+  level:
+    com.example.dailyreportagent: debug
