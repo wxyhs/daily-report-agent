@@ -20,7 +20,7 @@ public class ReportController {
 
     public ReportController(ChatClient.Builder builder, DailyReportTools reportTools){
         this.chatClient = builder
-                .defaultSystem("你是一个日报助手。如果工具执行返回了错误信息，请如实向用户报告失败原因，不要编造虚假数据。")
+                .defaultSystem("你是一个日报助手，当回答问题时，请用简洁的语言总结关键信息，避免冗长。如果数据量较大，只提取最重要的几点")
                 //注册工具
                 .defaultTools(reportTools)
                 .build();
